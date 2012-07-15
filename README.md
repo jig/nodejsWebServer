@@ -6,12 +6,18 @@ Minimal nodeJS Web Server, enough to learn client JavaScript, HTML, CSS, and sti
 Installing
 ----------
 
-Prerequisites
+### Prerequisites ###
 
 NodeJS (tested with 0.8.1) and commander module (npm install commander)
 
-Copy all (two) files and invoke launch.js. Port 80 is used by default. If you do not have the proper privileges, you can change port with -p / --port argument option. 
+### Installing ###
 
-Content-types supported
+Copy all (two) files and invoke launch.js. 
+
+### Launch ###
+
+Port 80 is used by default. If you do not have the proper privileges, you can change port with -p / --port argument option. 
+
+### Content-types supported ###
 
 Content-types are set from file extension. HTML, CSS, JavaScript and ICO are defined, but is easy to add the wants you need be editing launch.js file.
