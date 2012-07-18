@@ -14,6 +14,18 @@ function route(handle, pathname, response, postData) {
 }
 
 function start(port, handle) {
+	// path not found
+	if(handle[null] == undefined) {
+		handle[null] = function (pathname, response) {
+			console.log("No request handler found nor file for " + pathname);
+			response.writeHead(404, {
+					"Content-Type": "text/plain"
+				});
+			response.write("404 Not found");
+			response.end();
+		}
+	}
+	
 	function onRequest(request, response) {
 		var postData = '';
 		var pathname = url.parse(request.url).pathname;
