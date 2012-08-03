@@ -17,23 +17,23 @@ function start(port, handle) {
 	function onRequest(request, response) {
 		var postData = '';
 		var pathname = url.parse(request.url).pathname;
-		console.log("\nRequest: " + pathname);
+		// console.log("\nRequest: " + pathname);
 
 		request.setEncoding('utf8');
 	    request.addListener("data", function(postDataChunk) {
 			postData += postDataChunk;
-			console.log("Received POST data chunk '"+
-			postDataChunk + "'.");
+			// console.log("Received POST data chunk '" + postDataChunk + "'.");
 	    });
 
 		request.addListener("end", function() {
 			// enruta al handler apropiat
+			// console.log("Received POST **TOTAL** data '" + postData + "'.");
 			route(handle, pathname, response, postData);
 		});
 	}
 
-  http.createServer(onRequest).listen(port);
-  console.log("Server has started at port " + port);
+	http.createServer(onRequest).listen(port);
+	console.log("Server has started at port " + port);
 }
 
 exports.start = start;
