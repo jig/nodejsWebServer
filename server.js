@@ -4,11 +4,13 @@
 var http = require("http");
 var url = require("url");
 
-function route(handle, urlElements, response, postData) {
-	if (typeof handle[urlElements.pathname] === 'function') {
-		handle[urlElements.pathname](response, postData, urlElements);
+function route(handle, response, postData, request) {
+	var pathname = url.parse(request.url, true).pathname;
+	
+	if (typeof handle[pathname] === 'function') {
+		handle[pathname](response, postData, request);
 	} else {
-		handle[''](urlElements.pathname, response, postData, urlElements);
+		handle[''](pathname, response);
 	}
 }
 
@@ -22,7 +24,7 @@ function start(port, handle) {
 	    });
 
 		request.addListener("end", function() {
-			route(handle, url.parse(request.url, true), response, postData);
+			route(handle, response, postData, request);
 		});
 	}
 

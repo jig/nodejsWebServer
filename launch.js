@@ -63,9 +63,9 @@ var handle = {
 	},
 
 	// sample: gets a JSON POST and stores it in a file (directory _APPEND folder must exist):
-	"/append": function (response, postData) {
+	"/append": function (response, postData, request) {
 		response.writeHead(200, {"Content-Type": extensions.json });
-		var fileName = args.folder + '_APPEND/A_' + ((new Date()).getTime()) + '.json';
+		var fileName = args.folder + '_APPEND/A_' + request.connection.remoteAddress + '_' + ((new Date()).getTime()) + '.json';
 			console.log('Write to ' + fileName + ' data:' + postData);
 		fs.writeFile(fileName, postData, function (err) {
 			if (err) {
@@ -103,8 +103,9 @@ var handle = {
 		});
 	},
 	
-	"/": function (response, postData, urlElements) {
-		var query = urlElements.query;
+	"/": function (response, postData, request) {
+		var query = require("url").parse(request.url, true).query;
+		
 		if(query.samples !== undefined) {
 			console.log('Reading samples list');
 			fs.readdir(args.folder + '/_APPEND/', function (err, fileNames) {
@@ -133,9 +134,9 @@ var handle = {
 				}
 			});
 		} else {
-			console.log('Wrong command (' + JSON.stringify(urlElements.query) + ').');
+			console.log('Wrong command (' + JSON.stringify(query) + ').');
 			response.writeHead(200, {"Content-Type": extensions.text });
-			response.write('Wrong command (' + JSON.stringify(urlElements.query) + ').');
+			response.write('Wrong command (' + JSON.stringify(query) + ').');
 			response.end();
 		}
 	}
